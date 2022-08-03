@@ -5,6 +5,7 @@ import io.github.retrooper.packetevents.event.PacketListenerPriority;
 import io.github.retrooper.packetevents.event.impl.PacketPlayReceiveEvent;
 import io.github.retrooper.packetevents.packettype.PacketType;
 import io.github.retrooper.packetevents.packetwrappers.play.in.updatesign.WrappedPacketInUpdateSign;
+import kr.teamcocoa.signinput.InputCallBack;
 import kr.teamcocoa.signinput.SignInputManager;
 import org.bukkit.entity.Player;
 
@@ -24,7 +25,11 @@ public class SignPacketListener extends PacketListenerAbstract {
             }
 
             WrappedPacketInUpdateSign signPacket = new WrappedPacketInUpdateSign(e.getNMSPacket());
-            signPacket.getTextLines();
+
+            InputCallBack callBack = SignInputManager.getInstance().getCallBack(player);
+            callBack.onInput(signPacket.getTextLines());
+
+            SignInputManager.getInstance().setPlayerInputExecuted(player);
 
             e.setCancelled(true);
         }

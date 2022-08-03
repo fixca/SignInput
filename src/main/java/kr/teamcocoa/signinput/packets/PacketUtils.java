@@ -9,10 +9,12 @@ import net.minecraft.network.protocol.game.ClientboundOpenSignEditorPacket;
 import net.minecraft.network.protocol.game.ServerboundSignUpdatePacket;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SignBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_18_R2.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_18_R2.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_18_R2.util.CraftMagicNumbers;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -33,20 +35,35 @@ public class PacketUtils {
         return packet;
     }
 
-    public static Packet createSignDefaultTextPacket(String[] lines) {
+    public static Packet createSignDefaultTextPacket() {
         if(lines.length != 4) {
             throw new IllegalArgumentException("A length of lines should be 4!");
         }
+
+//        for (String line : lines) {
+//            if(line.length() > 15) {
+//                throw new IllegalArgumentException("Each length of a line should be lower than 16!");
+//            }
+//        }
 
         BlockPos position = new BlockPos(0, 0, 0);
         ServerboundSignUpdatePacket packet = new ServerboundSignUpdatePacket(position, lines[0], lines[1], lines[2], lines[3]);
         return packet;
     }
 
-    public static Packet createSignInputPacket() {
+    public static void sendSignInputPacket(String[] lines) {
+        if(lines.length != 4) {
+            throw new IllegalArgumentException("A length of lines should be 4!");
+        }
+
         BlockPos position = new BlockPos(0, 0, 0);
+        BlockState state = CraftMagicNumbers.getBlock(Material.OAK_SIGN, (byte) 0);
+        ClientboundBlockUpdatePacket blockPositionUpdatePacket = new ClientboundBlockUpdatePacket(position, state);
+
+        net.minecraft.world.level.block.entity.SignBlockEntity
+
         ClientboundOpenSignEditorPacket packet = new ClientboundOpenSignEditorPacket(position);
-        return packet;
+
     }
 
 }

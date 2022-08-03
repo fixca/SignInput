@@ -1,5 +1,6 @@
 package kr.teamcocoa.signinput;
 
+import kr.teamcocoa.signinput.packets.PacketUtils;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -37,7 +38,12 @@ public class SignInputManager {
             return;
         }
 
+        onPendingInputList.put(player.getUniqueId(), model.getCallBack());
 
+        PacketUtils.sendPackets(player,
+                PacketUtils.createBlockPositionPacket(),
+                PacketUtils.createSignDefaultTextPacket(model.getLines()),
+                PacketUtils.createSignInputPacket());
     }
 
 }
