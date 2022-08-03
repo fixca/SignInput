@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundBlockUpdatePacket;
 import net.minecraft.network.protocol.game.ClientboundOpenSignEditorPacket;
+import net.minecraft.network.protocol.game.ServerboundSignUpdatePacket;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -33,7 +34,13 @@ public class PacketUtils {
     }
 
     public static Packet createSignDefaultTextPacket(String[] lines) {
+        if(lines.length != 4) {
+            throw new IllegalArgumentException("A length of lines should be 4!");
+        }
 
+        BlockPos position = new BlockPos(0, 0, 0);
+        ServerboundSignUpdatePacket packet = new ServerboundSignUpdatePacket(position, lines[0], lines[1], lines[2], lines[3]);
+        return packet;
     }
 
     public static Packet createSignInputPacket() {
