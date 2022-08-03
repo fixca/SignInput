@@ -1,0 +1,4 @@
+name: SignInputAPI
+main: kr.teamcocoa.signinput.SignInput
+version: 1.0
+author: fixca
