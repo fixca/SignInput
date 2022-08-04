@@ -40,10 +40,7 @@ public class SignInputManager {
 
         onPendingInputList.put(player.getUniqueId(), model.getCallBack());
 
-        PacketUtils.sendPackets(player,
-                PacketUtils.createBlockPositionPacket(),
-                PacketUtils.createSignDefaultTextPacket(model.getLines()),
-                PacketUtils.createSignInputPacket());
+        PacketUtils.sendSignInputPacket(player, model.getLines());
     }
 
 }
