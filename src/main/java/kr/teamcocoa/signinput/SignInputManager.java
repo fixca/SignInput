@@ -1,6 +1,7 @@
 package kr.teamcocoa.signinput;
 
 import kr.teamcocoa.signinput.packets.PacketUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -17,14 +18,14 @@ public class SignInputManager {
         return instance;
     }
 
-    private HashMap<UUID, InputCallBack> onPendingInputList = new HashMap<>();
+    private HashMap<UUID, SignInputModel> onPendingInputList = new HashMap<>();
 
     public boolean isPlayerPendingInput(Player player) {
         return onPendingInputList.containsKey(player.getUniqueId());
     }
 
-    public InputCallBack getCallBack(Player player) {
-        return onPendingInputList.getOrDefault(player, lines -> {});
+    public SignInputModel getModel(Player player) {
+        return onPendingInputList.getOrDefault(player.getUniqueId(), null);
     }
 
     public void setPlayerInputExecuted(Player player) {
@@ -38,7 +39,7 @@ public class SignInputManager {
             return;
         }
 
-        onPendingInputList.put(player.getUniqueId(), model.getCallBack());
+        onPendingInputList.put(player.getUniqueId(), model);
 
         PacketUtils.sendSignInputPacket(player, model.getLines());
     }

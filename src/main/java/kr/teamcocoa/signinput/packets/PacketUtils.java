@@ -33,7 +33,7 @@ public class PacketUtils {
             throw new IllegalArgumentException("A length of lines should be 4!");
         }
 
-        BlockPos position = new BlockPos(0, 1, 0);
+        BlockPos position = new BlockPos(player.getLocation().getBlockX(), 1, player.getLocation().getBlockZ());
         BlockState state = CraftMagicNumbers.getBlock(Material.OAK_SIGN, (byte) 0);
 
         Component[] components = CraftSign.sanitizeLines(lines);
